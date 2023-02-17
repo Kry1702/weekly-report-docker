@@ -1,0 +1,38 @@
+version: "3"
+x-default-healthcheck: &default-healthcheck
+  interval: 30s
+  timeout: 5s
+  retries: 2
+  start_period: 10s
+
+services:
+  weekly-report:
+    container_name: weekly-report
+    image: kry1702/release:weekly-report-online-v1.0.0-alpine-3.16
+    restart: always
+    environment:
+      OPENAI_API_KEY: sk-5fMAUYUdfjjwenvw6ndghwkPHMAgb2SWh896JIpc #设置OpenAI API Key
+    volumes:
+      - ./volumes/node_modules:/data/node_modules #在线版，支持依赖模块本地持久化；
+    healthcheck:
+      <<: *default-healthcheck
+      test: [ "CMD-SHELL","curl -s 127.0.0.1:3000 > /dev/null 2>&1" ]
+    networks:
+      - weekly-report
+
+  weekly-report-web:
+    container_name: weekly-report-web
+    image: kry1702/release:weekly-report-web-v1.0.0-alpine-3.17
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - weekly-report
+    healthcheck:
+      <<: *default-healthcheck
+      test: [ "CMD-SHELL","curl -s 127.0.0.1:80 > /dev/null 2>&1" ]
+    networks:
+      - weekly-report
+
+networks:
+  weekly-report:
