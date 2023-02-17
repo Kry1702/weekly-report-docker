@@ -232,7 +232,7 @@ git clone https://github.com/guaguaguaxia/weekly_report.git
 
 
 
-#### 进入工作目录
+### 进入工作目录
 
 ```
 cd weekly-report-docker
@@ -240,7 +240,7 @@ cd weekly-report-docker
 
 
 
-#### 启动服务
+### 启动服务
 
 ```
 docker-compoes up -d 
@@ -256,7 +256,7 @@ Web 默认映射端口：8080 ，可自定义修改；
 
 
 
-#### 访问
+### 访问
 
 http://IP:8080
 
